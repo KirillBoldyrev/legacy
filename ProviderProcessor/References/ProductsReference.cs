@@ -16,7 +16,7 @@ namespace ProviderProcessing.References
             throw new NotImplementedException("Долгая-долгая инициализация справочника.");
         }
 
-        public int? FindCodeByName(string name)
+        public virtual int? FindCodeByName(string name)
         {
             throw new NotImplementedException("Работа со справочником");
         }

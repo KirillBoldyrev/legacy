@@ -16,7 +16,7 @@ namespace ProviderProcessing.References
             throw new NotImplementedException("Долгая-долгая инициализация справочника.");
         }
 
-        public MeasureUnit FindByCode(string measureUnitCode)
+        public virtual MeasureUnit FindByCode(string measureUnitCode)
         {
             throw new NotImplementedException("Работа со справочником");
         }
