@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using ProviderProcessing.ProcessReports;
 using ProviderProcessing.ProviderDatas;
 using ProviderProcessing.References;
+using ProviderProcessor;
 
 namespace ProviderProcessing
 {
@@ -12,10 +13,12 @@ namespace ProviderProcessing
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(ProviderProcessor));
         private readonly ProviderRepository repo;
+        private readonly ProductValidator productValidator;
 
         public ProviderProcessor()
         {
             repo = new ProviderRepository();
+            productValidator = new ProductValidator(GetProductsReferenceInstance(), GetMeasureUnitsReferenceInstance());
         }
 
         public ProcessReport ProcessProviderData(string message)
@@ -28,9 +31,13 @@ namespace ProviderProcessing
                     data.ProviderId, data.Timestamp, existingData.Timestamp);
                 return new ProcessReport(false, "Outdated data");
             }
-            var errors = ValidateNames(data.Products)
-                .Concat(data.Products.SelectMany(ValidatePricesAndMeasureUnitCodes))
+            //var errors = ValidateNames(data.Products)
+            //    .Concat(data.Products.SelectMany(ValidatePricesAndMeasureUnitCodes))
+            //    .ToArray();
+            var errors = data.Products
+                .SelectMany(p => productValidator.ValidateProduct(p))
                 .ToArray();
+
             if (errors.Any())
             {
                 return new ProcessReport(false, "Product validation errors",
