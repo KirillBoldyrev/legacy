@@ -62,7 +62,7 @@ namespace ProviderProcessing
             return new ProcessReport(true, "OK");
         }
 
-        private IEnumerable<ProductValidationResult> ValidateNames(ProductData[] data)
+        public IEnumerable<ProductValidationResult> ValidateNames(ProductData[] data)
         {
             var reference = GetProductsReferenceInstance();
             foreach (var product in data)
@@ -73,7 +73,7 @@ namespace ProviderProcessing
             }
         }
 
-        private IEnumerable<ProductValidationResult> ValidatePricesAndMeasureUnitCodes(ProductData product)
+        public IEnumerable<ProductValidationResult> ValidatePricesAndMeasureUnitCodes(ProductData product)
         {
             if (product.Price <= 0)
                 yield return new ProductValidationResult(product, "Bad price", ProductValidationSeverity.Warning);
@@ -95,12 +95,12 @@ namespace ProviderProcessing
                 : "null";
         }
 
-        protected virtual ProductsReference GetProductsReferenceInstance()
+        public virtual ProductsReference GetProductsReferenceInstance()
         {
             return ProductsReference.GetInstance();
         }
 
-        protected virtual MeasureUnitsReference GetMeasureUnitsReferenceInstance()
+        public virtual MeasureUnitsReference GetMeasureUnitsReferenceInstance()
         {
             return MeasureUnitsReference.GetInstance();
         }
