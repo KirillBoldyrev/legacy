@@ -64,7 +64,7 @@ namespace ProviderProcessing
 
         private IEnumerable<ProductValidationResult> ValidateNames(ProductData[] data)
         {
-            var reference = ProductsReference.GetInstance();
+            var reference = GetProductsReferenceInstance();
             foreach (var product in data)
             {
                 if (!reference.FindCodeByName(product.Name).HasValue)
@@ -84,7 +84,7 @@ namespace ProviderProcessing
 
         private bool IsValidMeasureUnitCode(string measureUnitCode)
         {
-            var reference = MeasureUnitsReference.GetInstance();
+            var reference = GetMeasureUnitsReferenceInstance();
             return reference.FindByCode(measureUnitCode) != null;
         }
 
@@ -93,6 +93,16 @@ namespace ProviderProcessing
             return data != null
                 ? data.Id + " for " + data.ProviderId + " products count " + data.Products.Length
                 : "null";
+        }
+
+        protected virtual ProductsReference GetProductsReferenceInstance()
+        {
+            return ProductsReference.GetInstance();
+        }
+
+        protected virtual MeasureUnitsReference GetMeasureUnitsReferenceInstance()
+        {
+            return MeasureUnitsReference.GetInstance();
         }
     }
 }
